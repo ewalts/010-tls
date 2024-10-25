@@ -1,5 +1,7 @@
 # New deployment playbook 010-tls
-ubuntu trust update
+- Red hat trust update
+- ubuntu trust update
+```
 verbose=0
 fresh=0
 default=0
@@ -9,6 +11,5 @@ LOCALCERTSDIR=/usr/local/share/ca-certificates
 CERTBUNDLE=ca-certificates.crt
 ETCCERTSDIR=/etc/ssl/certs
 HOOKSDIR=/etc/ca-certificates/update.d
-
-debian trust update
-# 010-tls
+```
+- debian trust update

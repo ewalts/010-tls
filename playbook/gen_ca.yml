@@ -1,0 +1,27 @@
+- name: Generate new CA 
+  gather_facts: false
+  hosts: pac1
+  vars_files:
+    - vars/deployment_vars.yml
+  tasks:
+    - name: Create CA directory
+      become: true
+      shell: |
+        mkdir "{{ ca_cert_dir }}"
+      ignore_errors: true
+
+    - name: Generate CA key
+      become: true
+      shell: |
+        openssl genrsa 2048 > "{{ ca_cert_dir }}/ca-key.pem"
+
+    - name: Generate CA cert
+      become: true
+      shell: |
+        openssl req -new -x509 -nodes -days 3600 -key "{{ ca_cert_dir }}/ca-key.pem" -out "{{ ca_cert_dir }}/ca.pem" -subj "{{ ca_subject }}"
+
+    - name: Add new CA cert to trust
+      become: true
+      shell: |
+        sudo cp "{{ ca_cert_dir }}/ca.pem" /etc/ssl/certs
+        sudo update-ca-certificates
